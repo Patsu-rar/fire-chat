@@ -1,0 +1,26 @@
+<div class='chat-container'>
+  <mat-spinner *ngIf='loading'></mat-spinner>
+  <cdk-virtual-scroll-viewport #viewport [itemSize]="70" class='messages'  >
+    <mat-list>
+      <mat-list-item *cdkVirtualFor="let msg of messages">
+        <mat-icon matListItemAvatar style='font-size: 34px'>account_circle</mat-icon>
+        <span matListItemTitle style="font-size: 25px">{{ msg.name }}</span>
+        <span matListItemLine style="font-size: 20px">{{ msg.message }}</span>
+      </mat-list-item>
+    </mat-list>
+  </cdk-virtual-scroll-viewport>
+  <div class='send-message'>
+    <mat-card class='send-message-card'>
+      <mat-card-content class='send-message-card-content'>
+        <mat-form-field class='message-input'>
+          <mat-label>Your message</mat-label>
+          <input matInput (keyup.enter)='handleMessage()' placeholder='Type your thoughts here...'
+                 [(ngModel)]='message'>
+        </mat-form-field>
+        <button mat-icon-button color='primary' (click)='handleMessage()'>
+          <mat-icon>send</mat-icon>
+        </button>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

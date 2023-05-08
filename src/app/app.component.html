@@ -1,0 +1,28 @@
+<mat-toolbar class='header'>
+  <div class='header-title'>
+    <span>FireChat</span>
+    <mat-icon>local_fire_department</mat-icon>
+  </div>
+  <div class='header-options'>
+    <span>{{ nickname }}</span>
+    <mat-icon>person</mat-icon>
+  </div>
+</mat-toolbar>
+<ng-container *ngIf='nickname.length === 0; else loadMessages'>
+  <enter-chat (nickname)='nickname = $event'></enter-chat>
+</ng-container>
+<ng-template #loadMessages>
+  <ng-container *ngIf='chatService.messages$ | async as messages; else showLoader'>
+    <ng-container *ngIf='messages.length > 0; else showEmpty'>
+      <chat [messages]='messages' [loading]='(chatService.loadingMoreFinished$ | async) || false'
+            (loadMore)='loadMore()' (sendMessage)='sendMessage($event)'></chat>
+    </ng-container>
+  </ng-container>
+
+  <ng-template #showLoader>
+    <mat-spinner></mat-spinner>
+  </ng-template>
+  <ng-template #showEmpty>
+    <p>No messages here yet :)</p>
+  </ng-template>
+</ng-template>
